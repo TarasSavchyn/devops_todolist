@@ -13,6 +13,9 @@ RUN pip install --upgrade pip && \
 # Copy the application code into the container
 COPY . .
 
+# Run migrations during the build stage
+RUN python3 manage.py migrate
+
 # Runtime stage
 FROM python:${PYTHON_VERSION}-slim
 WORKDIR /app
@@ -27,5 +30,5 @@ COPY --from=base /app .
 # Expose port 8080 to the host
 EXPOSE 8080
 
-# Run migrations (after ensuring dependencies are available)
-CMD python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8080
+# Run the application at runtime
+CMD python3 manage.py runserver 0.0.0.0:8080
