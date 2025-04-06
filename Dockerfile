@@ -24,11 +24,6 @@ ENV APP_ENV="Production"
 # Copy the built application and installed dependencies from the build stage
 COPY --from=base /app .
 
-# Copy the requirements file to the runtime environment and install dependencies
-COPY requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
-
 # Run migrations
 RUN python3 manage.py migrate
 
