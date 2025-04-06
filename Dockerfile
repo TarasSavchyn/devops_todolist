@@ -24,11 +24,8 @@ ENV APP_ENV="Production"
 # Copy the built application and installed dependencies from the build stage
 COPY --from=base /app .
 
-# Run migrations
-RUN python3 manage.py migrate
-
 # Expose port 8080 to the host
 EXPOSE 8080
 
-# Define the command to run the application
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8080"]
+# Run migrations (after ensuring dependencies are available)
+CMD python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8080
